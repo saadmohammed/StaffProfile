@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">StaffProfile</string>
+    <string name="app_name">Staff Profile</string>
+    <string name="title_activity_main">Staff Profile</string>
 </resources>
