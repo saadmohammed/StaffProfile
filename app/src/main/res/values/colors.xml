@@ -3,5 +3,15 @@
     <color name="colorPrimary">#0AA0CC</color>
     <color name="colorPrimaryDark">#1D657A</color>
     <color name="colorAccent">#1C52A4</color>
+    <color name="colorGradient">#46730f</color>
+    <color name="overlayBackground">#80000000</color>
+    <color name="overLAYBackground">#45f8fafc</color>
+    <color name="overlayActionBar">#957fedd5</color>
+    <color name="overLAYBackground2">#87474748</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_300">#E0E0E0</color>
     <color name="white">#FFFFFF</color>
 </resources>
+
+
+
