@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     Bundle bundle;
     AidedFragment aidedFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                             //Because category Id is key, so we just get key of
                             //itemList.putExtra("CategoryId", adapter.getRef(position).getKey());
                             bundle.putString("DeptId",adapter.getRef(position).getKey());
+                            Log.e("ID",adapter.getRef(position).getKey());
                             aidedFragment.setArguments(bundle);
                             startActivity(itemList);
                               Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
