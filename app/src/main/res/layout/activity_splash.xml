@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-      android:layout_centerInParent="true"
+        android:layout_centerInParent="true"
         app:srcCompat="@drawable/jmc_logo"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>

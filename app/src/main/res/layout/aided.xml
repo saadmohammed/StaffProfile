@@ -6,27 +6,42 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundFragment">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="@color/white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Teaching Staff"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/aidedRecyclerView"/>
+        android:id="@+id/aidedRecyclerViewTeaching"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
-        app:cardBackgroundColor="@color/colorPrimaryDark">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="@color/white">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Non- Teaching Staff"
-                android:textColor="@color/white"
+                android:text="Non - Teaching Staff"
+                android:textColor="@color/colorPrimaryDark"
                 android:gravity="center"/>
-        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/aidedRecyclerViewNonTeaching"/>
 
 </LinearLayout>

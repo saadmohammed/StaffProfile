@@ -12,6 +12,7 @@
     <color name="grey_300">#E0E0E0</color>
     <color name="white">#FFFFFF</color>
     <color name="backgroundFragment">#2b2b2b</color>
+    <color name="transparent">#00333333</color>
 </resources>
 
 

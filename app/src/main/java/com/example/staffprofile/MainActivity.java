@@ -2,6 +2,7 @@ package com.example.staffprofile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseRecyclerAdapter<Department, DepartmentViewHolder> adapter;
 
-
+    Bundle bundle;
+    AidedFragment aidedFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 .build());
 
         setContentView(R.layout.activity_main);
+
+        bundle = new Bundle();
+        aidedFragment = new AidedFragment();
+
+        Toolbar toolbar = findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        getSupportActionBar().setTitle("Staff Profile");
 
         //Alert Progress
         builder = new AlertDialog.Builder(this);
@@ -170,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
                             Intent itemList = new Intent(getApplicationContext(), StaffActivity.class);
                             //Because category Id is key, so we just get key of
                             //itemList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                            bundle.putString("DeptId",adapter.getRef(position).getKey());
+                            aidedFragment.setArguments(bundle);
                             startActivity(itemList);
                               Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
                         }
@@ -231,3 +243,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
+/*Bundle bundle = new Bundle();
+bundle.putString("edttext", "From Activity");
+// set Fragmentclass Arguments
+Fragmentclass fragobj = new Fragmentclass();
+fragobj.setArguments(bundle);*/
