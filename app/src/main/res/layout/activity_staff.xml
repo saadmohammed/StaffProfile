@@ -23,6 +23,7 @@
         app:tabMode="fixed"
         app:tabTextColor="@color/white"
         app:tabGravity="fill"
+        app:tabIndicatorHeight="4dp"
         app:tabIndicatorColor="@color/colorAccent"
         android:id="@+id/tabLayoutId"
         app:tabTextAppearance="@style/MineCustomTabText">

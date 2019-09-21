@@ -1,10 +1,14 @@
 package com.example.staffprofile;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.Staff;
 import com.example.staffprofile.ViewHolder.StaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,10 +28,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class UnAidedFragment extends Fragment {
 
     View view;
-    private RecyclerView unAidedRecyclerView;
+    private RecyclerView unAidedTeachingRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private DatabaseReference unAidedDatabaseReference;
+    private DatabaseReference unAidedTeachingDatabaseReference;
+
+    String DeptId = "";
+
+    FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
+
+    SharedPreferences sharedPreferences;
+
 
     public UnAidedFragment() {
     }
@@ -39,25 +50,49 @@ public class UnAidedFragment extends Fragment {
         view = inflater.inflate(R.layout.unaided, container, false);
 
         //Recycler View
-        unAidedRecyclerView = view.findViewById(R.id.unAidedRecyclerViewTeaching);
-        unAidedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        unAidedTeachingRecyclerView = view.findViewById(R.id.unAidedRecyclerView);
+        unAidedTeachingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //Firebase
-        unAidedDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Staff");
+        unAidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("UnAided");
+
+        //SharedPreference
+        sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (sharedPreferences.contains("DeptId")){
+            DeptId = sharedPreferences.getString("DeptId","");
+        }
+
         return view;
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        Query query = FirebaseDatabase.getInstance().getReference().child("Staff");
-        FirebaseRecyclerOptions options =
+         if(!DeptId.isEmpty() && DeptId != null)
+            if(Common.isConnectedToInternet(getActivity()))
+                unAidedTeachingStaff(DeptId);
+            else
+                Toast.makeText(getContext(),"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+
+        if(adapter == null) {
+            if (Common.isConnectedToInternet(getContext()))
+                adapter.startListening();
+            else
+                startActivity(new Intent(getContext(), RetryActivity.class));
+        }
+    }
+
+    private void unAidedTeachingStaff(String deptId) {
+        Query query = unAidedTeachingDatabaseReference.orderByChild("DeptId").equalTo(deptId);        FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Staff>()
                         .setQuery(query, Staff.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter =
+        adapter =
                 new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull StaffViewHolder holder, int i, @NonNull Staff staff) {
@@ -76,7 +111,9 @@ public class UnAidedFragment extends Fragment {
                     }
                 };
 
-        unAidedRecyclerView.setAdapter(adapter);
+        unAidedTeachingRecyclerView.setAdapter(adapter);
         adapter.startListening();
     }
+
+
 }

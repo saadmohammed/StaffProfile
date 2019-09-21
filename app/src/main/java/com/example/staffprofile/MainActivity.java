@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     //Refresh
     SwipeRefreshLayout s;
 
+    SharedPreferences sharedPreferences ;
+    SharedPreferences.Editor editor;
 
     // Creating RecyclerView.
     RecyclerView recyclerView;
@@ -78,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseRecyclerAdapter<Department, DepartmentViewHolder> adapter;
 
-    Bundle bundle;
-    AidedFragment aidedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        bundle = new Bundle();
-        aidedFragment = new AidedFragment();
+        sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
+        editor = sharedPreferences.edit();
+
 
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
@@ -182,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
                             Intent itemList = new Intent(getApplicationContext(), StaffActivity.class);
                             //Because category Id is key, so we just get key of
                             //itemList.putExtra("CategoryId", adapter.getRef(position).getKey());
-                            bundle.putString("DeptId",adapter.getRef(position).getKey());
+                            editor.putString("DeptId",adapter.getRef(position).getKey());
+                            editor.commit();
                             Log.e("ID",adapter.getRef(position).getKey());
-                            aidedFragment.setArguments(bundle);
                             startActivity(itemList);
-                              Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
                         }
                     });
                 else

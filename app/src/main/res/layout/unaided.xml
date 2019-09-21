@@ -4,44 +4,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundFragment">
+    android:background="@color/white">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Teaching Staff"
-            android:textColor="#000"
-            android:gravity="center"/>
-    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/unAidedRecyclerViewTeaching"/>
+        android:id="@+id/unAidedRecyclerView"/>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="@color/white">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Non - Teaching Staff"
-            android:textColor="#000"
-            android:gravity="center"/>
 
-    </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/unAidedRecyclerViewNonTeaching"/>
+
 
 </LinearLayout>

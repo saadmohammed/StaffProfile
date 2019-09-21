@@ -4,22 +4,12 @@ public class Staff {
     private String Name;
     private String Post;
     private String Degree;
-    private int Phone;
+    private Long Phone;
     private String Email;
     private String Image;
 
     public Staff() {
     }
-
-    public Staff(String name, String post, String degree, int phone, String email, String image) {
-        Name = name;
-        Post = post;
-        Degree = degree;
-        Phone = phone;
-        Email = email;
-        Image = image;
-    }
-
 
     public String getName() {
         return Name;
@@ -45,11 +35,11 @@ public class Staff {
         Degree = degree;
     }
 
-    public int getPhone() {
+    public Long getPhone() {
         return Phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Long phone) {
         Phone = phone;
     }
 

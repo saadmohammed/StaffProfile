@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:background="@color/white"
+    android:padding="10dp"
+    android:layout_marginBottom="1dp">
 
 
        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/staff_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+           app:civ_border_width="0dp"
             android:src="@drawable/ic_launcher_background" />
 
     <LinearLayout
@@ -25,9 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:text="Name"
+            android:textAllCaps="true"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="#161515"/>
 
         <TextView
             android:id="@+id/staff_post"
@@ -35,8 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Posting"
+            android:textAllCaps="true"
             android:textSize="12sp"
-            android:textColor="@color/white" />
+            android:textColor="#303030" />
 
     </LinearLayout>
 
