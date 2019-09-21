@@ -59,7 +59,7 @@ public class AidedFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        DeptId = getArguments().getString("DeptId");
+
         aidedTeachingStaff();
         aidedNonTeachingStaff();
 
