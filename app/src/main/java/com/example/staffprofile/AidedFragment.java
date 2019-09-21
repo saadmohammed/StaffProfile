@@ -1,11 +1,14 @@
 package com.example.staffprofile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.Staff;
 import com.example.staffprofile.ViewHolder.StaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -32,8 +35,9 @@ public class AidedFragment extends Fragment {
 
     private DatabaseReference aidedTeachingDatabaseReference, aidedNonTeachingDatabaseReference;
 
-    String DeptId = "";
+    FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
 
+    String DeptId = "";
 
     public AidedFragment() {
     }
@@ -43,14 +47,24 @@ public class AidedFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.aided, container, false);
+
+        if(getActivity() != null)
+            DeptId = getArguments().getString("DeptId");
+        if(!DeptId.isEmpty() && DeptId != null)
+            if(Common.isConnectedToInternet(getActivity()))
+                aidedTeachingStaff(DeptId);
+            else
+                Toast.makeText(getContext(),"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+
         //Recycler View
         aidedTeachingRecyclerView = view.findViewById(R.id.aidedRecyclerViewTeaching);
         aidedTeachingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         aidedNonTeachingRecyclerView = view.findViewById(R.id.aidedRecyclerViewNonTeaching);
         aidedNonTeachingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         //Firebase
-        aidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Staff");
-        aidedNonTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Staff");
+        aidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Aided");
+        aidedNonTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("UnAided");
 
 
         return view;
@@ -59,21 +73,27 @@ public class AidedFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        DeptId = getArguments().getString("DeptId");
-        aidedTeachingStaff();
+
+
+        if(adapter == null)
+            if(Common.isConnectedToInternet(getContext()))
+                adapter.startListening();
+            else
+                startActivity(new Intent(getContext(),RetryActivity.class));
+
         aidedNonTeachingStaff();
 
     }
 
 
-    private void aidedTeachingStaff() {
-        Query query = FirebaseDatabase.getInstance().getReference().child("Staff");
+    private void aidedTeachingStaff(String deptId) {
+        Query query = aidedTeachingDatabaseReference.orderByChild("DeptId").equalTo(deptId);
         FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Staff>()
                         .setQuery(query, Staff.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter =
+        adapter =
                 new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull StaffViewHolder holder, int i, @NonNull Staff staff) {
