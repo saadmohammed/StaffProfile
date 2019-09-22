@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position, @NonNull Department model) {
                 holder.departmentName.setText(model.getName());
-                Picasso.get().load(model.getImage()).into(holder.departmentImage);
+                    Picasso.get().load(model.getImage()).into(holder.departmentImage);
                 dialog.dismiss();
                 final Department clickCategoryItem = model;
                 if (Common.isConnectedToInternet(getApplicationContext()))
@@ -183,12 +183,11 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent itemList = new Intent(getApplicationContext(), StaffActivity.class);
                             //Because category Id is key, so we just get key of
-                            //itemList.putExtra("CategoryId", adapter.getRef(position).getKey());
                             editor.putString("DeptId",adapter.getRef(position).getKey());
                             editor.commit();
                             Log.e("ID",adapter.getRef(position).getKey());
                             startActivity(itemList);
-                            Toast.makeText(getApplicationContext(),"Starting",Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 else

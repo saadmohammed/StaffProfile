@@ -3,11 +3,14 @@ package com.example.staffprofile;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import com.example.staffprofile.Common.Common;
+import com.example.staffprofile.Interface.ItemClickListener;
+import com.example.staffprofile.Model.Department;
 import com.example.staffprofile.Model.Staff;
 import com.example.staffprofile.ViewHolder.StaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -18,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,8 +39,8 @@ public class AidedFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
 
-    SharedPreferences sharedPreferences;
-
+    SharedPreferences sharedPreferences, staffSharedPreferences;
+    SharedPreferences.Editor staffId;
     public AidedFragment() {
     }
 
@@ -56,6 +60,10 @@ public class AidedFragment extends Fragment {
         //SharedPreference
         sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //SharedPreference
+        staffSharedPreferences =  getActivity().getSharedPreferences("MyPrefStaffId", 0);
+        staffId = staffSharedPreferences.edit();
 
         if (sharedPreferences.contains("DeptId")){
             DeptId = sharedPreferences.getString("DeptId","");
@@ -98,6 +106,19 @@ public class AidedFragment extends Fragment {
                         holder.staffName.setText(staff.getName());
                         holder.staffPost.setText(staff.getPost());
                         Picasso.get().load(staff.getImage()).into(holder.staffImage);
+
+                        final Staff clickCategoryItem = staff;
+                        if (Common.isConnectedToInternet(getActivity()))
+                            holder.setItemClickListener(new ItemClickListener() {
+                                @Override
+                                public void onClick(View view, int position, boolean isLongClick) {
+                                    staffId.putString("StaffId",adapter.getRef(position).getKey());
+                                    staffId.commit();
+                                    startActivity(new Intent(getContext(), AidedStaffDetail.class));
+                                    Log.e("ID",adapter.getRef(position).getKey());
+                                }
+                            });
+
                     }
 
                     @NonNull
@@ -114,6 +135,7 @@ public class AidedFragment extends Fragment {
         adapter.startListening();
 
     }
+
 
 
 
