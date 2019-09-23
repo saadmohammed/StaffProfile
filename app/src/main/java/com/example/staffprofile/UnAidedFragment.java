@@ -112,9 +112,11 @@ public class UnAidedFragment extends Fragment {
                         holder.setItemClickListener(new ItemClickListener() {
                             @Override
                             public void onClick(View view, int position, boolean isLongClick) {
-                                staffId.putString("UnStaffId", adapter.getRef(position).getKey());
-                                staffId.commit();
-                                startActivity(new Intent(getContext(), UnAidedStaffDetail.class));
+                                if (Common.isConnectedToInternet(getActivity())) {
+                                    staffId.putString("UnStaffId", adapter.getRef(position).getKey());
+                                    staffId.commit();
+                                    startActivity(new Intent(getContext(), UnAidedStaffDetail.class));
+                                }
                             }
                         });
                     }

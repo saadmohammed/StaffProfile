@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +33,8 @@ public class UnAidedStaffDetail extends AppCompatActivity {
     SharedPreferences staffSharedPreferences;
     String UnStaffId = "";
 
-    private Button btnPhone, btnEmail;
-    private TextView txtName, txtDegree, txtPost;
+    private ImageButton btnCall, btnEmail;
+    private TextView txtName, txtDegree, txtPost, txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
 
     FirebaseDatabase database;
@@ -61,9 +62,12 @@ public class UnAidedStaffDetail extends AppCompatActivity {
         txtName = findViewById(R.id.detail_unstaffname);
         txtDegree = findViewById(R.id.detail_unstaffdegree);
         txtPost = findViewById(R.id.detail_unstaffpost);
-        btnEmail = findViewById(R.id.detail_unstaffemail);
-        btnPhone = findViewById(R.id.detail_unstaffphone);
+        txtEmail = findViewById(R.id.detail_unstaffemail);
+        txtPhone = findViewById(R.id.detail_unstaffphone);
+        txtAddress = findViewById(R.id.detail_unstaffaddress);
         imgStaff = findViewById(R.id.detail_unstaffimage);
+        btnCall = findViewById(R.id.img_unaided_staff_call);
+        btnEmail = findViewById(R.id.img_unaided_staff_mail);
 
         //Firebase AIDED
         database = FirebaseDatabase.getInstance();
@@ -86,7 +90,7 @@ public class UnAidedStaffDetail extends AppCompatActivity {
             else
                 Toast.makeText(getApplicationContext(), "Please Check Internet Connection", Toast.LENGTH_LONG).show();
 
-        btnPhone.setOnClickListener(new View.OnClickListener() {
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -132,8 +136,8 @@ public class UnAidedStaffDetail extends AppCompatActivity {
                 txtName.setText(staff.getName());
                 txtDegree.setText(staff.getDegree());
                 txtPost.setText(staff.getPost());
-                btnEmail.setText(staff.getEmail());
-                btnPhone.setText(staff.getPhone().toString());
+                txtPhone.setText(staff.getPhone().toString());
+                txtEmail.setText(staff.getEmail());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
             }

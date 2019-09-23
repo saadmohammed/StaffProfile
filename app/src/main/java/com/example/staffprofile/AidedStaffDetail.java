@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +33,10 @@ public class AidedStaffDetail extends AppCompatActivity {
     SharedPreferences staffSharedPreferences;
     String StaffId = "";
 
-    private Button btnPhone, btnEmail;
-    private TextView txtName, txtDegree, txtPost;
+
+    private TextView txtName, txtDegree, txtPost,txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
+    private ImageButton btnCall,btnEmail;
 
     FirebaseDatabase database;
     DatabaseReference aided;
@@ -61,19 +63,18 @@ public class AidedStaffDetail extends AppCompatActivity {
         txtName = findViewById(R.id.detail_staffname);
         txtDegree = findViewById(R.id.detail_staffdegree);
         txtPost = findViewById(R.id.detail_staffpost);
-        btnEmail = findViewById(R.id.detail_staffemail);
-        btnPhone = findViewById(R.id.detail_staffphone);
+        txtEmail = findViewById(R.id.detail_staffemail);
+        txtPhone = findViewById(R.id.detail_staffphone);
+        txtAddress = findViewById(R.id.detail_staffaddress);
+
         imgStaff = findViewById(R.id.detail_staffimage);
+
+        btnCall = findViewById(R.id.img_aided_staff_call);
+        btnEmail = findViewById(R.id.img_aided_staff_mail);
 
         //Firebase AIDED
         database = FirebaseDatabase.getInstance();
         aided = database.getReference().child("Aided");
-
-/*
-        //Firebase UNAIDED
-        unaidedStaffDetailFirebaseDatabase = FirebaseDatabase.getInstance();
-        unaidedStaffDetailDatabaseReference = unaidedStaffDetailFirebaseDatabase.getReference().child("UnAided");
-*/
 
 
         staffSharedPreferences = getApplicationContext().getSharedPreferences("MyPrefStaffId", 0);
@@ -92,7 +93,7 @@ public class AidedStaffDetail extends AppCompatActivity {
             else
                 Toast.makeText(getApplicationContext(), "Please Check Internet Connection", Toast.LENGTH_LONG).show();
 
-        btnPhone.setOnClickListener(new View.OnClickListener() {
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -126,7 +127,7 @@ public class AidedStaffDetail extends AppCompatActivity {
 
     }
 
-    private void aidedDetailStaff(String staffId) {
+    private void aidedDetailStaff(final String staffId) {
         aided.child(staffId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -136,8 +137,8 @@ public class AidedStaffDetail extends AppCompatActivity {
                 txtName.setText(staff.getName());
                 txtDegree.setText(staff.getDegree());
                 txtPost.setText(staff.getPost());
-                btnEmail.setText(staff.getEmail());
-                btnPhone.setText(staff.getPhone().toString());
+                txtEmail.setText(staff.getEmail());
+                txtPhone.setText(staff.getPhone().toString());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
             }

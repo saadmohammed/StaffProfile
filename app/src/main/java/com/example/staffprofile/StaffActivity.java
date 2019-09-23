@@ -86,7 +86,6 @@ public class StaffActivity extends AppCompatActivity {
         adapter = new ViewPageAdapter(getSupportFragmentManager());
 
         //Add Fragment
-
         adapter.AddFragment(new AidedFragment(), "Aided");
         adapter.AddFragment(new UnAidedFragment(), "Self - Finance");
 

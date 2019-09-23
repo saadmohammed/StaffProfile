@@ -17,7 +17,6 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 app:civ_border_width="0dp"
-                android:src="@drawable/photo"
                 android:layout_centerInParent="true"/>
 
             <TextView
@@ -27,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
-                android:text="Staff Name"
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textStyle="bold"
@@ -41,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="BSc, MCA, Ph.D, SET"
                 android:textColor="@color/white"
                 />
             <TextView
@@ -51,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="Assistant Professor"
+
                 android:textColor="@color/white"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
@@ -64,62 +61,152 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-
-        <Button
-            android:id="@+id/detail_staffphone"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:drawablePadding="20dp"
-            android:drawableRight="@drawable/ic_call_black_24dp"
-            android:background="@android:color/transparent"
-            android:text="8807056510"
-            android:gravity="start"/>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="9"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="0dp"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/detail_staffphone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:text="8807056510"
+                    android:maxLines="1"
+                    android:textColor="#333"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    />
+
+
+            </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/img_aided_staff_call"
+                    android:background="@drawable/call"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_call_white_24dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp" />
+
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.7dp"
             android:background="#c0c0c0"/>
-        <Button
-            android:id="@+id/detail_staffemail"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textSize="15sp"
-            android:textAlignment="textStart"
-            android:drawablePadding="20dp"
-            android:drawableRight="@drawable/ic_email_black_24dp"
-            android:background="@android:color/transparent"
-            android:text="jmsaad46@gmail.com"
-            android:textAllCaps="false"
-            android:gravity="start"/>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:padding="14dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="9"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="0dp"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/detail_staffemail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:text="jmsaad46@gmail.com"
+                        android:maxLines="1"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        />
+
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/img_aided_staff_mail"
+                    android:background="@drawable/mail"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_email_black_24dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp" />
+
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.7dp"
             android:background="#c0c0c0"/>
-
-        <Button
-            android:id="@+id/detail_staffaddress"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textSize="16sp"
-            android:textAlignment="textStart"
-            android:drawablePadding="20dp"
-            android:drawableRight="@drawable/ic_location_on_black_24dp"
-            android:background="@android:color/transparent"
-            android:text="46/1341 Maddekar Street NeelField, Vaniyambadi."
-            android:textAllCaps="false"
-            android:gravity="start"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0"/>
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:padding="14sp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="9"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="0dp"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/detail_staffaddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:text="Vaniyambadi"
+                        android:textColor="#333"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
 
 
 
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
 
 </LinearLayout>
+
+
+

@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="420dp"
-        android:background="@drawable/shape"
+        android:background="@drawable/call"
         android:text="Retry"
         android:backgroundTint="@color/colorPrimary"
         android:gravity="center"

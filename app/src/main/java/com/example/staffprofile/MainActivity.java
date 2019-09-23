@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
+
     }
 
     @Override
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         int llPadding = 30;
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.HORIZONTAL);
-        ll.setPadding(llPadding, llPadding, llPadding, llPadding);
+        ll.setPadding(15, llPadding, 15, llPadding);
         ll.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams llParam = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -244,10 +247,29 @@ public class MainActivity extends AppCompatActivity {
             dialog.getWindow().setAttributes(layoutParams);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.nonteaching:
+            startActivity(new Intent(getApplicationContext(),NonTeachingStaff.class));
+            return(true);
+        case R.id.exit:
+            finish();
+            return(true);
+        case R.id.search:
+            //add the function to perform here
+            return(true);
+    }
+        return(super.onOptionsItemSelected(item));
+    }
+
 }
 
-/*Bundle bundle = new Bundle();
-bundle.putString("edttext", "From Activity");
-// set Fragmentclass Arguments
-Fragmentclass fragobj = new Fragmentclass();
-fragobj.setArguments(bundle);*/
