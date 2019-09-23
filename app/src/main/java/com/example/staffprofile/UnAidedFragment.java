@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.staffprofile.Common.Common;
+import com.example.staffprofile.Interface.ItemClickListener;
 import com.example.staffprofile.Model.Staff;
 import com.example.staffprofile.ViewHolder.StaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -37,7 +38,9 @@ public class UnAidedFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences, staffSharedPreferences;
+    SharedPreferences.Editor staffId;
+
 
 
     public UnAidedFragment() {
@@ -56,9 +59,14 @@ public class UnAidedFragment extends Fragment {
         //Firebase
         unAidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("UnAided");
 
-        //SharedPreference
+        //SharedPreferenceFromMain
         sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //SharedPreferenceToUnAidedStaffDEtail
+        staffSharedPreferences =  getActivity().getSharedPreferences("MyPrefUnStaffId", 0);
+        staffId = staffSharedPreferences.edit();
+
 
         if (sharedPreferences.contains("DeptId")){
             DeptId = sharedPreferences.getString("DeptId","");
@@ -99,6 +107,16 @@ public class UnAidedFragment extends Fragment {
                         holder.staffName.setText(staff.getName());
                         holder.staffPost.setText(staff.getPost());
                         Picasso.get().load(staff.getImage()).into(holder.staffImage);
+
+                        final Staff clickCategoryItem = staff;
+                        holder.setItemClickListener(new ItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position, boolean isLongClick) {
+                                staffId.putString("UnStaffId", adapter.getRef(position).getKey());
+                                staffId.commit();
+                                startActivity(new Intent(getContext(), UnAidedStaffDetail.class));
+                            }
+                        });
                     }
 
                     @NonNull

@@ -21,7 +21,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">@font/small</item>

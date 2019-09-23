@@ -41,6 +41,7 @@ public class AidedFragment extends Fragment {
 
     SharedPreferences sharedPreferences, staffSharedPreferences;
     SharedPreferences.Editor staffId;
+
     public AidedFragment() {
     }
 
@@ -57,11 +58,11 @@ public class AidedFragment extends Fragment {
         //Firebase
         aidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Aided");
 
-        //SharedPreference
+        //SharedPreferenceFromMain
         sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        //SharedPreference
+        //SharedPreferenceToAidedStaffDetail
         staffSharedPreferences =  getActivity().getSharedPreferences("MyPrefStaffId", 0);
         staffId = staffSharedPreferences.edit();
 
@@ -108,14 +109,16 @@ public class AidedFragment extends Fragment {
                         Picasso.get().load(staff.getImage()).into(holder.staffImage);
 
                         final Staff clickCategoryItem = staff;
-                        if (Common.isConnectedToInternet(getActivity()))
+
                             holder.setItemClickListener(new ItemClickListener() {
                                 @Override
                                 public void onClick(View view, int position, boolean isLongClick) {
-                                    staffId.putString("StaffId",adapter.getRef(position).getKey());
-                                    staffId.commit();
-                                    startActivity(new Intent(getContext(), AidedStaffDetail.class));
-                                    Log.e("ID",adapter.getRef(position).getKey());
+                                    if (Common.isConnectedToInternet(getActivity())) {
+                                        staffId.putString("StaffId", adapter.getRef(position).getKey());
+                                        staffId.commit();
+                                        startActivity(new Intent(getContext(), AidedStaffDetail.class));
+                                        Log.e("ID", adapter.getRef(position).getKey());
+                                    }
                                 }
                             });
 

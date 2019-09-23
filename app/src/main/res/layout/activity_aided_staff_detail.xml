@@ -90,8 +90,7 @@
             android:background="@android:color/transparent"
             android:text="jmsaad46@gmail.com"
             android:textAllCaps="false"
-            android:gravity="start"
-            />
+            android:gravity="start"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
