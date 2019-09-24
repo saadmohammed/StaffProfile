@@ -3,13 +3,16 @@ package com.example.staffprofile;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -93,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 .build());
 
         setContentView(R.layout.activity_main);
+
+        //Permission
+        String[] permissionString = new String[]{Manifest.permission.CALL_PHONE};
+        ActivityCompat.requestPermissions(this, permissionString, 1);
+
+
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
         editor = sharedPreferences.edit();
@@ -255,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.nonteaching:
@@ -269,6 +277,26 @@ public class MainActivity extends AppCompatActivity {
             return(true);
     }
         return(super.onOptionsItemSelected(item));
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Log.d("PhoneCall", "Permission Granted");
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
 }

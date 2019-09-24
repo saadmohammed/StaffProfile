@@ -9,13 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NonTeachingStaff"></activity>
-        <activity android:name=".UnAidedStaffDetail" />
-        <activity android:name=".AidedStaffDetail" />
-        <activity android:name=".StaffActivity" />
-        <activity android:name=".RetryActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".NonTeachingStaff"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".UnAidedStaffDetail"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AidedStaffDetail"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StaffActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RetryActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
