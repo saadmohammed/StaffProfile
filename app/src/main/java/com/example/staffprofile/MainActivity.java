@@ -265,9 +265,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.exit:
                 finish();
             return(true);
-            case R.id.search:
-            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-            return(true);
     }
         return(super.onOptionsItemSelected(item));
     }

@@ -138,6 +138,7 @@ public class AidedStaffDetail extends AppCompatActivity {
                 txtDegree.setText(staff.getDegree());
                 txtPost.setText(staff.getPost());
                 txtEmail.setText(staff.getEmail());
+                txtAddress.setText(staff.getAddress());
                 txtPhone.setText(staff.getPhone().toString());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
