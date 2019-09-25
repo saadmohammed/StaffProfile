@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".SplashActivity">
+
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        app:srcCompat="@drawable/jmc_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"/>
+        android:layout_marginBottom="150dp"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/jamalname" />
 
 
 

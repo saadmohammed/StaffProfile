@@ -257,15 +257,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
-        case R.id.nonteaching:
-            startActivity(new Intent(getApplicationContext(),NonTeachingStaff.class));
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.nonteaching:
+                startActivity(new Intent(getApplicationContext(),NonTeachingStaff.class));
             return(true);
-        case R.id.exit:
-            finish();
+            case R.id.exit:
+                finish();
             return(true);
-        case R.id.search:
-            //add the function to perform here
+            case R.id.search:
+            startActivity(new Intent(getApplicationContext(), SearchActivity.class));
             return(true);
     }
         return(super.onOptionsItemSelected(item));

@@ -9,8 +9,9 @@
 
    <androidx.cardview.widget.CardView
        android:layout_width="match_parent"
-       android:layout_height="130dp"
+       android:layout_height="120dp"
        app:cardCornerRadius="5dp">
+
        <ImageView
            android:id="@+id/department_image"
            android:layout_width="match_parent"
@@ -28,11 +29,9 @@
         android:gravity="center"
         android:text="Department"
         android:layout_marginTop="7dp"
-
         android:textColor="#2B2A2A"
         android:textSize="12sp"
-        android:textAllCaps="true"
-        android:textStyle="normal"/>
+        android:textStyle="italic"/>
 
 
 
