@@ -45,7 +45,7 @@
                 android:layout_marginTop="5dp"
                 android:text="Posting"
                 android:textAllCaps="false"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textColor="#474646" />
 
 
