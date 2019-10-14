@@ -95,7 +95,7 @@ public class AidedFragment extends Fragment {
 
 
     private void aidedTeachingStaff(String deptId) {
-        Query query = aidedTeachingDatabaseReference.orderByChild("DeptId").equalTo(deptId);
+        Query query = aidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);
         FirebaseRecyclerOptions<Staff> options =
                 new FirebaseRecyclerOptions.Builder<Staff>()
                         .setQuery(query, Staff.class)
@@ -117,7 +117,6 @@ public class AidedFragment extends Fragment {
                                         staffId.putString("StaffId", adapter.getRef(position).getKey());
                                         staffId.commit();
                                         startActivity(new Intent(getContext(), AidedStaffDetail.class));
-                                        Log.e("ID", adapter.getRef(position).getKey());
                                     }
                                 }
                             });

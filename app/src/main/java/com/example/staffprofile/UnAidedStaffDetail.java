@@ -131,15 +131,16 @@ public class UnAidedStaffDetail extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Staff staff = dataSnapshot.getValue(Staff.class);
-
                 Picasso.get().load(staff.getImage()).into(imgStaff);
                 txtName.setText(staff.getName());
                 txtDegree.setText(staff.getDegree());
                 txtPost.setText(staff.getPost());
                 txtPhone.setText(staff.getPhone().toString());
                 txtEmail.setText(staff.getEmail());
+                txtAddress.setText(staff.getAddress());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
+
             }
 
             @Override

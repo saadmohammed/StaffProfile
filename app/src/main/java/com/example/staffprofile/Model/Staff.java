@@ -7,6 +7,15 @@ public class Staff {
     private Long Phone;
     private String Email;
     private String Image;
+    private String Address;
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
 
     public Staff() {
     }

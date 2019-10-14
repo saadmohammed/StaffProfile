@@ -95,13 +95,12 @@ public class UnAidedFragment extends Fragment {
     }
 
     private void unAidedTeachingStaff(String deptId) {
-        Query query = unAidedTeachingDatabaseReference.orderByChild("DeptId").equalTo(deptId);        FirebaseRecyclerOptions options =
+        Query query = unAidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);        FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Staff>()
                         .setQuery(query, Staff.class)
                         .build();
 
-        adapter =
-                new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull StaffViewHolder holder, int i, @NonNull Staff staff) {
                         holder.staffName.setText(staff.getName());
