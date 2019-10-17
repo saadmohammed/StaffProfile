@@ -73,7 +73,7 @@
                     android:gravity="left"
                     android:textColor="#000"
                     android:textStyle="bold"
-                    android:textSize="24sp"/>
+                    android:textSize="16sp"/>
                 <TextView
                     android:layout_below="@id/detail_staffname"
                     android:id="@+id/detail_staffdegree"
@@ -92,7 +92,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:layout_marginLeft="25dp"
-
                     android:text=""
                     android:textColor="#333"
                     android:layout_marginTop="5dp"
