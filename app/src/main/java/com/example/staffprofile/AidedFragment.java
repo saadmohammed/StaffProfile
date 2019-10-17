@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Interface.ItemClickListener;
@@ -32,6 +33,8 @@ public class AidedFragment extends Fragment {
     View view;
     private RecyclerView aidedTeachingRecyclerView;
     private LinearLayoutManager linearLayoutManager;
+
+    private TextView emptyTextViewAided;
 
     private DatabaseReference aidedTeachingDatabaseReference;
 
@@ -71,6 +74,7 @@ public class AidedFragment extends Fragment {
         }
 
 
+
         return view;
     }
 
@@ -95,46 +99,48 @@ public class AidedFragment extends Fragment {
 
 
     private void aidedTeachingStaff(String deptId) {
-        Query query = aidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);
-        FirebaseRecyclerOptions<Staff> options =
-                new FirebaseRecyclerOptions.Builder<Staff>()
-                        .setQuery(query, Staff.class)
-                        .build();
 
-           adapter  = new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull StaffViewHolder holder, int i, @NonNull Staff staff) {
-                        holder.staffName.setText(staff.getName());
-                        holder.staffPost.setText(staff.getPost());
-                        Picasso.get().load(staff.getImage()).into(holder.staffImage);
+            Query query = aidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);
 
-                        final Staff clickCategoryItem = staff;
+            FirebaseRecyclerOptions<Staff> options =
+                    new FirebaseRecyclerOptions.Builder<Staff>()
+                            .setQuery(query, Staff.class)
+                            .build();
 
-                            holder.setItemClickListener(new ItemClickListener() {
-                                @Override
-                                public void onClick(View view, int position, boolean isLongClick) {
-                                    if (Common.isConnectedToInternet(getActivity())) {
-                                        staffId.putString("StaffId", adapter.getRef(position).getKey());
-                                        staffId.commit();
-                                        startActivity(new Intent(getContext(), AidedStaffDetail.class));
-                                    }
-                                }
-                            });
+            adapter  = new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull StaffViewHolder holder, int i, @NonNull Staff staff) {
+                    holder.staffName.setText(staff.getName());
+                    holder.staffPost.setText(staff.getPost());
+                    Picasso.get().load(staff.getImage()).into(holder.staffImage);
 
-                    }
+                    final Staff clickCategoryItem = staff;
 
-                    @NonNull
-                    @Override
-                    public StaffViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    holder.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position, boolean isLongClick) {
+                            if (Common.isConnectedToInternet(getActivity())) {
+                                staffId.putString("StaffId", adapter.getRef(position).getKey());
+                                staffId.commit();
+                                startActivity(new Intent(getContext(), AidedStaffDetail.class));
+                            }
+                        }
+                    });
 
-                        View staffView = LayoutInflater.from(parent.getContext()).inflate(R.layout.staff_list, parent, false);
-                        StaffViewHolder staffViewHolder = new StaffViewHolder(staffView);
-                        return staffViewHolder;
-                    }
-                };
+                }
 
-        aidedTeachingRecyclerView.setAdapter(adapter);
-        adapter.startListening();
+                @NonNull
+                @Override
+                public StaffViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                    View staffView = LayoutInflater.from(parent.getContext()).inflate(R.layout.staff_list, parent, false);
+                    StaffViewHolder staffViewHolder = new StaffViewHolder(staffView);
+                    return staffViewHolder;
+                }
+            };
+
+                aidedTeachingRecyclerView.setAdapter(adapter);
+                adapter.startListening();
 
     }
 

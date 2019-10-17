@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.Staff;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +38,8 @@ public class UnAidedStaffDetail extends AppCompatActivity {
     private ImageButton btnCall, btnEmail;
     private TextView txtName, txtDegree, txtPost, txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
-
+    CollapsingToolbarLayout collapsingToolbarLayoutUnaided;
+    AppBarLayout appBarLayoutUnAided;
     FirebaseDatabase database;
     DatabaseReference unAided;
 
@@ -58,6 +61,27 @@ public class UnAidedStaffDetail extends AppCompatActivity {
                 .build());
 
         setContentView(R.layout.activity_un_aided_staff_detail);
+
+        collapsingToolbarLayoutUnaided = findViewById(R.id.collapsingUnAided);
+        appBarLayoutUnAided = findViewById(R.id.app_bar_layoutUnAided);
+        appBarLayoutUnAided.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayoutUnaided.setTitle("Staff Details");
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbarLayoutUnaided.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
 
         txtName = findViewById(R.id.detail_unstaffname);
         txtDegree = findViewById(R.id.detail_unstaffdegree);

@@ -73,11 +73,7 @@ public class SearchActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_search);
 
-        database = FirebaseDatabase.getInstance();
-        aidedList = database.getReference("Aided");
-        unaidedList = database.getReference("UnAided");
-        ntaidedList = database.getReference("NTAided");
-        ntunaidedList = database.getReference("NTUnAided");
+        aidedList = FirebaseDatabase.getInstance().getReference().child("Aided");
 
         recyclerView = findViewById(R.id.recycler_search);
         layoutManager = new LinearLayoutManager(this);
@@ -92,7 +88,7 @@ public class SearchActivity extends AppCompatActivity {
         materialSearchBar.setCardViewElevation(5);
 
 
-        materialSearchBar.addTextChangeListener(new TextWatcher() {
+       /* materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -115,7 +111,7 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-        materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+       */ materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
                 //when search bar is close
@@ -141,54 +137,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadSuggest() {
         aidedList.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-
-                    Staff items = postSnapshot.getValue(Staff.class);
-                    suggestList.add(items.getName());// Add name of item to suggest list
-                }
-                materialSearchBar.setLastSuggestions(suggestList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        unaidedList.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-
-                    Staff items = postSnapshot.getValue(Staff.class);
-                    suggestList.add(items.getName());// Add name of item to suggest list
-                }
-                materialSearchBar.setLastSuggestions(suggestList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        ntaidedList.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-
-                    Staff items = postSnapshot.getValue(Staff.class);
-                    suggestList.add(items.getName());// Add name of item to suggest list
-                }
-                materialSearchBar.setLastSuggestions(suggestList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        ntunaidedList.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot:dataSnapshot.getChildren()){
@@ -245,94 +193,8 @@ public class SearchActivity extends AppCompatActivity {
 
         } ;
 
-        //UnAidedTeachingStaff
-        Query Tunaided = unaidedList.orderByChild("name").startAt(text+"").endAt(text + "\uf8ff");
-        FirebaseRecyclerOptions<Staff> options1 = new FirebaseRecyclerOptions.Builder<Staff>().setQuery(Tunaided, Staff.class).build();
-        searchAdapter = new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options1){
-            @Override
-            protected void onBindViewHolder(@NonNull StaffViewHolder holder, int position, @NonNull Staff model) {
-                holder.staffName.setText(model.getName());
-                holder.staffPost.setText(model.getPost());
-
-                Picasso.get().load(model.getImage()).into(holder.staffImage);
-
-                final Staff clickCategoryItem = model;
-                holder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position, boolean isLongClick) {
-                        //Because category Id is key, so we just get key of
-                        Intent itemDetail = new Intent(getApplicationContext(), UnAidedStaffDetail.class);
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("MyPrefUnStaffId",0);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UnStaffId", searchAdapter.getRef(position).getKey());
-                        editor.commit();
-                        startActivity(itemDetail);
-
-                        //Toast.makeText(getApplicationContext(),""+clickCategoryItem.getName()+" Add to cart" ,Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            @Override
-            public StaffViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                View view1 = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.staff_list, viewGroup, false);
-                return  new StaffViewHolder(view1);
-            }
-
-
-        } ;
-
-        Query NTaided = aidedList.orderByChild("name").startAt(text+"").endAt(text + "\uf8ff");
-        FirebaseRecyclerOptions<NTStaff> TUnOptions =
-                new FirebaseRecyclerOptions.Builder<NTStaff>()
-                        .setQuery(NTaided, NTStaff.class)
-                        .build();
-
-        ntsearchAdapter  = new FirebaseRecyclerAdapter<NTStaff, NTStaffViewHolder>(TUnOptions) {
-            @Override
-            protected void onBindViewHolder(@NonNull NTStaffViewHolder holder, int i, @NonNull final NTStaff ntStaff) {
-                holder.ntStaffName.setText(ntStaff.getName());
-                holder.ntStaffDesignation.setText(ntStaff.getDesignation());
-                holder.ntStaffPhone.setText(ntStaff.getPhone().toString());
-                holder.ntStaffCall.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        Intent callIntent = new Intent(Intent.ACTION_CALL);
-                        callIntent.setData(Uri.parse("tel:" + ntStaff.getPhone()));
-                        if (getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    Activity#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for Activity#requestPermissions for more details.
-                            return;
-                        }
-                        startActivity(callIntent);
-                    }
-                });
-
-            }
-
-            @NonNull
-            @Override
-            public NTStaffViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-                View staffView = LayoutInflater.from(parent.getContext()).inflate(R.layout.nt_staff_list, parent, false);
-                NTStaffViewHolder staffViewHolder = new NTStaffViewHolder(staffView);
-                return staffViewHolder;
-            }
-        };
-
-        //NT
-        ntsearchAdapter.startListening();
-        recyclerView.setAdapter(ntsearchAdapter);
-
-        //T
         searchAdapter.startListening();
         recyclerView.setAdapter(searchAdapter);
     }
-
 
 }

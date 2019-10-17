@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.Staff;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +35,8 @@ public class AidedStaffDetail extends AppCompatActivity {
 
     SharedPreferences staffSharedPreferences;
     String StaffId = "";
-
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    AppBarLayout appBarLayoutAided;
 
     private TextView txtName, txtDegree, txtPost,txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
@@ -58,6 +62,27 @@ public class AidedStaffDetail extends AppCompatActivity {
                 .build());
 
         setContentView(R.layout.activity_aided_staff_detail);
+        //Appbar/Collapsing Layout
+        collapsingToolbarLayout = findViewById(R.id.collapsingAided);
+        appBarLayoutAided = findViewById(R.id.app_bar_layoutAided);
+        appBarLayoutAided.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle("Staff Details");
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbarLayout.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
 
 
         txtName = findViewById(R.id.detail_staffname);
@@ -76,6 +101,7 @@ public class AidedStaffDetail extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         aided = database.getReference().child("Aided");
 
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
 
         staffSharedPreferences = getApplicationContext().getSharedPreferences("MyPrefStaffId", 0);
 
