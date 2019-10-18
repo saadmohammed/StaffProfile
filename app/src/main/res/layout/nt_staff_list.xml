@@ -27,8 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
-                android:text="Name"
-                android:maxLines="1"
+                android:text=""
+                android:textColor="#494646"
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:textStyle="bold" />
@@ -37,9 +37,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
-                android:text="Designation"
+                android:text=""
                 android:textSize="14sp"
                 android:maxLines="1"
+                android:textColor="#7A7979"
                 android:textAllCaps="false"
                 android:textStyle="italic" />
             <TextView
@@ -47,9 +48,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
-                android:text="1234567890"
+                android:text=""
                 android:textSize="14sp"
                 android:maxLines="1"
+                android:textColor="#7A7979"
                 android:textAllCaps="false"
                 android:textStyle="italic" />
 
