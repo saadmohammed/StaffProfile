@@ -176,22 +176,20 @@ public class MainActivity extends AppCompatActivity {
         sliderLayout = findViewById(R.id.slider);
         image_list = new ArrayList<>();
         name_list = new ArrayList<>();
-
         final RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
 
-        image_list.add("https://www.jmc.edu/images/jmc/groups.jpg");
-        name_list.add("Jamal Mohamed College");
 
-        image_list.add("https://www.jmc.edu/images/jmc/chairman.jpg");
-        name_list.add("Secretary");
-
-        image_list.add("https://www.jmc.edu/images/jmc/principal.jpg");
-        name_list.add("Pricipal");
-
-
-
-        for(int i=0; i<image_list.size(); i++){
+        DatabaseReference banner = firebaseDatabase.getReference("Banner");
+        banner.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Banner banners = snapshot.getValue(Banner.class);
+                    image_list.add(banners.getImage());
+                    name_list.add(banners.getName());
+                }
+                for(int i=0; i<image_list.size(); i++){
 
 
                     TextSliderView sliderView = new TextSliderView(getApplicationContext());
@@ -207,17 +205,21 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        sliderLayout.setDuration(9000);
+                sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                sliderLayout.setCustomAnimation(new DescriptionAnimation());
+                sliderLayout.setDuration(6000);
 
 
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
-
-
-
-
 
     @Override
     protected void onStop() {

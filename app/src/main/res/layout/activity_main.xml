@@ -26,18 +26,17 @@
         <com.glide.slider.library.SliderLayout
             android:id="@+id/slider"
             android:layout_margin="5dp"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="180dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView"
-        android:layout_margin="5dp"
-        android:backgroundTint="@color/grey_100"
-        android:scrollbars="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recyclerView"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/grey_100"
+            android:scrollbars="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
