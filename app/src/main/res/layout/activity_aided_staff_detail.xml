@@ -71,9 +71,9 @@
                     android:layout_marginLeft="25dp"
                     android:text=""
                     android:gravity="left"
-                    android:textColor="#000"
+                    android:textColor="#494646"
                     android:textStyle="bold"
-                    android:textSize="24sp"/>
+                    android:textSize="16sp"/>
                 <TextView
                     android:layout_below="@id/detail_staffname"
                     android:id="@+id/detail_staffdegree"
@@ -82,7 +82,7 @@
                     android:layout_marginLeft="25dp"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:textColor="#333"
+                    android:textColor="#494646"
                     android:text=""
                     />
                 <TextView
@@ -92,9 +92,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:layout_marginLeft="25dp"
-
                     android:text=""
-                    android:textColor="#333"
+                    android:textColor="#494646"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"/>
 
@@ -146,7 +145,7 @@
                                     android:text=""
                                     android:textIsSelectable="true"
                                     android:maxLines="1"
-                                    android:textColor="#333"
+                                    android:textColor="#494646"
                                     android:textSize="16sp"
                                     android:textAllCaps="false"
                                     android:textStyle="bold" />
@@ -199,7 +198,7 @@
                                     android:text=""
                                     android:textIsSelectable="true"
                                     android:maxLines="1"
-                                    android:textColor="#333"
+                                    android:textColor="#494646"
                                     android:textSize="16sp"
                                     android:textAllCaps="false"
                                     android:textStyle="bold"
@@ -253,7 +252,7 @@
                                     android:gravity="center_vertical|start"
                                     android:text=""
                                     android:textIsSelectable="true"
-                                    android:textColor="#333"
+                                    android:textColor="#494646"
                                     android:textSize="16sp"
                                     android:textAllCaps="false"
                                     android:textStyle="bold" />
