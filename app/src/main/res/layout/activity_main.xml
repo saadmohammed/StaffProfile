@@ -23,13 +23,12 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-
-           <!-- <com.daimajia.slider.library.SliderLayout
-            android:id="@+id/sliderMainBanner"
+        <com.glide.slider.library.SliderLayout
+            android:id="@+id/slider"
+            android:layout_margin="5dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-                android:layout_margin="5dp">
-            </com.daimajia.slider.library.SliderLayout>-->
+            android:layout_height="200dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

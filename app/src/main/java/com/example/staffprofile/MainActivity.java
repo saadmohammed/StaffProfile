@@ -23,18 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Interface.ItemClickListener;
 import com.example.staffprofile.Model.Banner;
@@ -42,6 +36,9 @@ import com.example.staffprofile.Model.Department;
 import com.example.staffprofile.ViewHolder.DepartmentViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.animations.DescriptionAnimation;
+import com.glide.slider.library.slidertypes.DefaultSliderView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +46,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import java.util.HashMap;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -81,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
     GridLayoutManager mlm;
     // Creating RecyclerView.Adapter.
     RecyclerView.Adapter recyclerAdapter;
-
     FirebaseRecyclerAdapter<Department, DepartmentViewHolder> adapter;
 
+    //Slider
+    SliderLayout sliderLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 .build());
 
         setContentView(R.layout.activity_main);
+
 
         //Permission
         String[] permissionString = new String[]{Manifest.permission.CALL_PHONE};
@@ -160,8 +158,38 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
+        //SliderLayout
+        slideSetup();
+
 
     }
+
+    private void slideSetup() {
+        sliderLayout = findViewById(R.id.slider);
+
+        DatabaseReference sliders = firebaseDatabase.getReference("Banner");
+        sliders.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Banner banner = dataSnapshot.getValue(Banner.class);
+                DefaultSliderView defaultSliderView = new DefaultSliderView(getApplicationContext());
+                defaultSliderView
+                        .image(banner.getImage())
+                        .setProgressBarVisible(true);
+                sliderLayout.addSlider(defaultSliderView);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        sliderLayout.setDuration(4000);
+    }
+
 
     @Override
     protected void onStop() {

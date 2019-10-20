@@ -1,33 +1,38 @@
 package com.example.staffprofile.Model;
 
 public class Banner {
-    private String Id, Image;
+    private String id, image, name;
 
-    public Banner(String id, String image) {
-        Id = id;
-        Image = image;
+    public Banner(String id, String image, String name) {
+        this.id = id;
+        this.image = image;
+        this.name = name;
     }
-
-
-
-
 
     public Banner() {
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getImage() {
-        return Image;
+        return image;
     }
 
     public void setImage(String image) {
-        Image = image;
+        this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
