@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.request.RequestOptions;
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Interface.ItemClickListener;
 import com.example.staffprofile.Model.Banner;
@@ -39,6 +41,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.animations.DescriptionAnimation;
 import com.glide.slider.library.slidertypes.DefaultSliderView;
+import com.glide.slider.library.slidertypes.TextSliderView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +49,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -81,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Slider
     SliderLayout sliderLayout;
-
+    ArrayList<String> image_list;
+    ArrayList<String> name_list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,29 +174,49 @@ public class MainActivity extends AppCompatActivity {
 
     private void slideSetup() {
         sliderLayout = findViewById(R.id.slider);
+        image_list = new ArrayList<>();
+        name_list = new ArrayList<>();
 
-        DatabaseReference sliders = firebaseDatabase.getReference("Banner");
-        sliders.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Banner banner = dataSnapshot.getValue(Banner.class);
-                DefaultSliderView defaultSliderView = new DefaultSliderView(getApplicationContext());
-                defaultSliderView
-                        .image(banner.getImage())
-                        .setProgressBarVisible(true);
-                sliderLayout.addSlider(defaultSliderView);
-            }
+        final RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        image_list.add("https://www.jmc.edu/images/jmc/groups.jpg");
+        name_list.add("Jamal Mohamed College");
 
-            }
-        });
+        image_list.add("https://www.jmc.edu/images/jmc/chairman.jpg");
+        name_list.add("Secretary");
 
+        image_list.add("https://www.jmc.edu/images/jmc/principal.jpg");
+        name_list.add("Pricipal");
+
+
+
+        for(int i=0; i<image_list.size(); i++){
+
+
+                    TextSliderView sliderView = new TextSliderView(getApplicationContext());
+
+                    // initialize SliderLayout
+                    sliderView
+                            .image(image_list.get(i))
+                            .description(name_list.get(i))
+                            .setRequestOption(requestOptions)
+                            .setProgressBarVisible(true);
+                    sliderLayout.addSlider(sliderView);
+                    Log.e("Image",""+image_list.get(i));
+
+                }
+
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
         sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        sliderLayout.setDuration(4000);
+        sliderLayout.setDuration(9000);
+
+
     }
+
+
+
 
 
     @Override
