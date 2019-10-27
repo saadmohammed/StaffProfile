@@ -20,10 +20,16 @@
         android:title="College Web">
     </item>
     <item
-        android:id="@+id/exit"
+        android:id="@+id/about"
         app:showAsAction="never"
-        android:title="Exit">
+        android:title="About US">
     </item>
+    <item
+        android:id="@+id/logout"
+        app:showAsAction="never"
+        android:title="Logout">
+    </item>
+
 
 </menu>
 

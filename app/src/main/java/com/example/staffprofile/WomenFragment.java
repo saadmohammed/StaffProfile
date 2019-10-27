@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class WomenFragment extends Fragment {
+
     View view;
     private RecyclerView womenTeachingRecyclerView;
 
@@ -35,8 +36,8 @@ public class WomenFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
 
-    SharedPreferences sharedPreferences, staffSharedPreferences;
-    SharedPreferences.Editor staffId;
+    SharedPreferences sharedPreferences, staffWomenSharedPreferences;
+    SharedPreferences.Editor womenStaffId;
 
 
     //Lock
@@ -64,6 +65,10 @@ public class WomenFragment extends Fragment {
         //SharedPreferenceFromMain
         sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //SharedPreferenceToWomenStaffDetail
+        staffWomenSharedPreferences =  getActivity().getSharedPreferences("MyPrefWomenStaffId", 0);
+        womenStaffId = staffWomenSharedPreferences.edit();
 
 
         if (sharedPreferences.contains("DeptId")){
@@ -111,9 +116,9 @@ public class WomenFragment extends Fragment {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         if (Common.isConnectedToInternet(getActivity())) {
-                            staffId.putString("UnStaffId", adapter.getRef(position).getKey());
-                            staffId.commit();
-                            startActivity(new Intent(getContext(), UnAidedStaffDetail.class));
+                            womenStaffId.putString("UnWomenStaffId", adapter.getRef(position).getKey());
+                            womenStaffId.commit();
+                            startActivity(new Intent(getContext(), WomenDetailActivity.class));
                         }
                     }
                 });

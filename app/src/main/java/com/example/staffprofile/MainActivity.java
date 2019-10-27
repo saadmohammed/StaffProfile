@@ -275,7 +275,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -289,14 +288,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nonteaching:
                 startActivity(new Intent(getApplicationContext(),NonTeachingStaff.class));
             return(true);
-            case R.id.exit:
+            case R.id.logout:
                 finish();
             return(true);
             case R.id.web:
                 Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jmc.edu"));
                 startActivity(browser);
             return(true);
-
         }
         return(super.onOptionsItemSelected(item));
     }

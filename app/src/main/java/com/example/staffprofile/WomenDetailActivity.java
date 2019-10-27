@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.Staff;
 import com.google.android.material.appbar.AppBarLayout;
@@ -29,18 +30,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class UnAidedStaffDetail extends AppCompatActivity {
+public class WomenDetailActivity extends AppCompatActivity {
 
-    SharedPreferences staffSharedPreferences;
-    String UnStaffId = "";
+    SharedPreferences staffWomenSharedPreferences;
+    String WomenStaffId = "";
 
     private ImageButton btnCall, btnEmail;
     private TextView txtName, txtDegree, txtPost, txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
-    CollapsingToolbarLayout collapsingToolbarLayoutUnaided;
-    AppBarLayout appBarLayoutUnAided;
+    private CardView womenDetailCard;
+    CollapsingToolbarLayout collapsingToolbarLayoutWomen;
+    AppBarLayout appBarLayoutWomen;
     FirebaseDatabase database;
-    DatabaseReference unAided;
+    DatabaseReference women;
 
     String phoneNo = "", TO = "";
 
@@ -59,11 +61,11 @@ public class UnAidedStaffDetail extends AppCompatActivity {
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
-        setContentView(R.layout.activity_un_aided_staff_detail);
+        setContentView(R.layout.activity_women_detail);
 
-        collapsingToolbarLayoutUnaided = findViewById(R.id.collapsingUnAided);
-        appBarLayoutUnAided = findViewById(R.id.app_bar_layoutUnAided);
-        appBarLayoutUnAided.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        collapsingToolbarLayoutWomen = findViewById(R.id.collapsingWomen);
+        appBarLayoutWomen = findViewById(R.id.app_bar_layoutWomen);
+        appBarLayoutWomen.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
 
@@ -73,45 +75,47 @@ public class UnAidedStaffDetail extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayoutUnaided.setTitle("Staff Details");
+                    collapsingToolbarLayoutWomen.setTitle("Staff Details");
                     isShow = true;
                 } else if(isShow) {
-                    collapsingToolbarLayoutUnaided.setTitle(" ");//careful there should a space between double quote otherwise it wont work
+                    collapsingToolbarLayoutWomen.setTitle(" ");//careful there should a space between double quote otherwise it wont work
                     isShow = false;
                 }
             }
         });
 
-        txtName = findViewById(R.id.detail_unstaffname);
-        txtDegree = findViewById(R.id.detail_unstaffdegree);
-        txtPost = findViewById(R.id.detail_unstaffpost);
-        txtEmail = findViewById(R.id.detail_unstaffemail);
-        txtPhone = findViewById(R.id.detail_unstaffphone);
-        txtAddress = findViewById(R.id.detail_unstaffaddress);
-        imgStaff = findViewById(R.id.detail_unstaffimage);
-        btnCall = findViewById(R.id.img_unaided_staff_call);
-        btnEmail = findViewById(R.id.img_unaided_staff_mail);
+        txtName = findViewById(R.id.detail_womenstaffname);
+        txtDegree = findViewById(R.id.detail_womenstaffdegree);
+        txtPost = findViewById(R.id.detail_womenstaffpost);
+        txtEmail = findViewById(R.id.detail_womenstaffemail);
+        txtPhone = findViewById(R.id.detail_womenstaffphone);
+        txtAddress = findViewById(R.id.detail_womenstaffaddress);
+        imgStaff = findViewById(R.id.detail_womenstaffimage);
+        btnCall = findViewById(R.id.img_women_staff_call);
+        btnEmail = findViewById(R.id.img_women_staff_mail);
+        womenDetailCard = findViewById(R.id.womenCard);
 
-        //Firebase UNAIDED
+
+        //Firebase Women
         database = FirebaseDatabase.getInstance();
-        unAided = database.getReference().child("UnAided");
+        women = database.getReference().child("Women");
 
+        staffWomenSharedPreferences = getApplicationContext().getSharedPreferences("MyPrefWomenStaffId", 0);
 
-        staffSharedPreferences = getApplicationContext().getSharedPreferences("MyPrefUnStaffId", 0);
-
-        if (staffSharedPreferences.contains("UnStaffId")) {
-            UnStaffId = staffSharedPreferences.getString("UnStaffId", "");
+        if (staffWomenSharedPreferences.contains("UnWomenStaffId")) {
+            WomenStaffId = staffWomenSharedPreferences.getString("UnWomenStaffId", "");
         } else {
             Toast.makeText(this, "Details Not Available", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, StaffActivity.class));
             finish();
         }
 
-        if (!UnStaffId.isEmpty() && UnStaffId != null)
+        if (!WomenStaffId.isEmpty() && WomenStaffId != null)
             if (Common.isConnectedToInternet(getApplicationContext()))
-                unAidedDetailStaff(UnStaffId);
+                womenDetailStaff(WomenStaffId);
             else
                 Toast.makeText(getApplicationContext(), "Please Check Internet Connection", Toast.LENGTH_LONG).show();
+
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +140,7 @@ public class UnAidedStaffDetail extends AppCompatActivity {
         btnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{TO});
                 emailIntent.setType("message/rfc822");
@@ -143,15 +148,22 @@ public class UnAidedStaffDetail extends AppCompatActivity {
 
             }
         });
+        womenDetailCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.jmc.edu/include/department/cs/staff/profile/GR.pdf"));
+                startActivity(intent);
+            }
+        });
+
 
     }
 
-    private void unAidedDetailStaff(String unStaffId) {
-        unAided.child(unStaffId).addValueEventListener(new ValueEventListener() {
+    private void womenDetailStaff(String womenStaffId) {
+        women.child(womenStaffId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
                 Staff staff = dataSnapshot.getValue(Staff.class);
                 Picasso.get().load(staff.getImage()).into(imgStaff);
                 txtName.setText(staff.getName());
@@ -166,7 +178,10 @@ public class UnAidedStaffDetail extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
+
     }
 }
