@@ -135,6 +135,8 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+
+
     private void loadSuggest() {
         aidedList.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -1,12 +1,15 @@
 package com.example.staffprofile;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.staffprofile.Common.Common;
@@ -16,10 +19,17 @@ import com.example.staffprofile.Model.Staff;
 import com.example.staffprofile.ViewHolder.StaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -34,29 +44,38 @@ public class AidedFragment extends Fragment {
     private RecyclerView aidedTeachingRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private TextView emptyTextViewAided;
-
     private DatabaseReference aidedTeachingDatabaseReference;
 
     String DeptId = "";
 
+    ProgressDialog dialog ;
     FirebaseRecyclerAdapter<Staff, StaffViewHolder> adapter;
 
     SharedPreferences sharedPreferences, staffSharedPreferences;
     SharedPreferences.Editor staffId;
 
+    //Lock
+    private ImageView lock;
+
+
     public AidedFragment() {
     }
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.aided, container, false);
 
+        //Lock
+        lock = view.findViewById(R.id.aidedLock);
+
         //Recycler View
         aidedTeachingRecyclerView = view.findViewById(R.id.aidedRecyclerView);
         aidedTeachingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //Pregress
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait...");
 
         //Firebase
         aidedTeachingDatabaseReference = FirebaseDatabase.getInstance().getReference().child("Aided");
@@ -82,20 +101,23 @@ public class AidedFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(!DeptId.isEmpty() && DeptId != null)
-            if(Common.isConnectedToInternet(getActivity()))
-                aidedTeachingStaff(DeptId);
-            else
-                Toast.makeText(getContext(),"Please Check Internet Connection", Toast.LENGTH_LONG).show();
-
-        if(adapter == null) {
-            if (Common.isConnectedToInternet(getContext()))
-                adapter.startListening();
-            else
-                startActivity(new Intent(getContext(), RetryActivity.class));
+        String principal = Common.CURRENT_USER.getPassword();
+        String men = Common.CURRENT_USER.getPassword();
+        if(!DeptId.isEmpty() && DeptId != null) {
+            if (Common.isConnectedToInternet(getActivity())) {
+                if (men.equals("1111") || principal.equals("0000")) {
+                    aidedTeachingStaff(DeptId);
+                }
+                else{
+                    aidedTeachingRecyclerView.setVisibility(View.GONE);
+                    lock.setVisibility(View.VISIBLE);
+                }
+            } else {
+                Toast.makeText(getContext(), "Please Check Internet Connection", Toast.LENGTH_LONG).show();
+            }
         }
-
     }
+
 
 
     private void aidedTeachingStaff(String deptId) {
@@ -113,7 +135,7 @@ public class AidedFragment extends Fragment {
                     holder.staffName.setText(staff.getName());
                     holder.staffPost.setText(staff.getPost());
                     Picasso.get().load(staff.getImage()).into(holder.staffImage);
-
+                    dialog.dismiss();
                     final Staff clickCategoryItem = staff;
 
                     holder.setItemClickListener(new ItemClickListener() {
@@ -126,7 +148,6 @@ public class AidedFragment extends Fragment {
                             }
                         }
                     });
-
                 }
 
                 @NonNull
@@ -137,14 +158,12 @@ public class AidedFragment extends Fragment {
                     StaffViewHolder staffViewHolder = new StaffViewHolder(staffView);
                     return staffViewHolder;
                 }
+
+
             };
 
-                aidedTeachingRecyclerView.setAdapter(adapter);
-                adapter.startListening();
+        aidedTeachingRecyclerView.setAdapter(adapter);
+        adapter.startListening();
 
     }
-
-
-
-
 }

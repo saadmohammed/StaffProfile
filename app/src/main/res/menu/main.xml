@@ -15,6 +15,11 @@
          android:title="Non-Teaching Staff">
     </item>
     <item
+        android:id="@+id/web"
+        app:showAsAction="never"
+        android:title="College Web">
+    </item>
+    <item
         android:id="@+id/exit"
         app:showAsAction="never"
         android:title="Exit">

@@ -86,8 +86,9 @@ public class StaffActivity extends AppCompatActivity {
         adapter = new ViewPageAdapter(getSupportFragmentManager());
 
         //Add Fragment
-        adapter.AddFragment(new AidedFragment(), "Aided");
-        adapter.AddFragment(new UnAidedFragment(), "Self - Finance");
+        adapter.AddFragment(new AidedFragment(), "Men - Aided");
+        adapter.AddFragment(new UnAidedFragment(), "Men - SF");
+        adapter.AddFragment(new WomenFragment(), "Women - SF");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

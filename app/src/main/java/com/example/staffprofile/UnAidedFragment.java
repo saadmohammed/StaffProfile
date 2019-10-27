@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,9 @@ public class UnAidedFragment extends Fragment {
     SharedPreferences sharedPreferences, staffSharedPreferences;
     SharedPreferences.Editor staffId;
 
+    //Lock
+    private ImageView lock;
+
 
 
     public UnAidedFragment() {
@@ -52,6 +56,9 @@ public class UnAidedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.unaided, container, false);
+
+        //Lock
+        lock = view.findViewById(R.id.unaidedLock);
 
         //Recycler View
         unAidedTeachingRecyclerView = view.findViewById(R.id.unAidedRecyclerView);
@@ -64,7 +71,7 @@ public class UnAidedFragment extends Fragment {
         sharedPreferences =  getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        //SharedPreferenceToUnAidedStaffDEtail
+        //SharedPreferenceToUnAidedStaffDetail
         staffSharedPreferences =  getActivity().getSharedPreferences("MyPrefUnStaffId", 0);
         staffId = staffSharedPreferences.edit();
 
@@ -72,34 +79,38 @@ public class UnAidedFragment extends Fragment {
         if (sharedPreferences.contains("DeptId")){
             DeptId = sharedPreferences.getString("DeptId","");
         }
-
         return view;
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-         if(!DeptId.isEmpty() && DeptId != null)
-            if(Common.isConnectedToInternet(getActivity()))
-                unAidedTeachingStaff(DeptId);
-            else
-                Toast.makeText(getContext(),"Please Check Internet Connection", Toast.LENGTH_LONG).show();
-
-        if(adapter == null) {
-            if (Common.isConnectedToInternet(getContext()))
-                adapter.startListening();
-            else
-                startActivity(new Intent(getContext(), RetryActivity.class));
+        String principal = Common.CURRENT_USER.getPassword();
+        String men = Common.CURRENT_USER.getPassword();
+        if(!DeptId.isEmpty() && DeptId != null) {
+            if (Common.isConnectedToInternet(getActivity())) {
+                if (men.equals("1111") || principal.equals("0000")) {
+                    unAidedTeachingStaff(DeptId);
+                }
+                else{
+                    unAidedTeachingRecyclerView.setVisibility(View.GONE);
+                    lock.setVisibility(View.VISIBLE);
+                }
+            } else {
+                Toast.makeText(getContext(), "Please Check Internet Connection", Toast.LENGTH_LONG).show();
+            }
         }
+
     }
 
+
     private void unAidedTeachingStaff(String deptId) {
-        Query query = unAidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);        FirebaseRecyclerOptions options =
+        Query query = unAidedTeachingDatabaseReference.orderByChild("deptId").equalTo(deptId);
+        FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Staff>()
-                        .setQuery(query, Staff.class)
-                        .build();
+                .setQuery(query, Staff.class)
+                .build();
 
         adapter = new FirebaseRecyclerAdapter<Staff, StaffViewHolder>(options) {
                     @Override

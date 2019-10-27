@@ -21,25 +21,26 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jamal Mohamed College"
+            android:gravity="center"
+            android:layout_marginTop="40sp"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
 
-    <ImageView
-        android:id="@+id/jamalname"
-        android:layout_marginTop="60dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="50dp"
-        android:paddingLeft="50dp"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/jamalname"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(Autonomous) Tiruchirappalli"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textSize="22sp"
 
-    <ImageView
-        android:id="@+id/jamalauto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/jamalname"
-        android:paddingRight="70dp"
-        android:paddingLeft="70dp"
-        android:src="@drawable/jamalauto"/>
+            android:textColor="#4F3083"/>
+
 
     </LinearLayout>
 

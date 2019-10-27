@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/aidedRecyclerView"
+        android:id="@+id/womenRecyclerView"
         android:scrollbars="vertical"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/aidedLock"
+            android:id="@+id/womenLock"
             android:layout_width="80dp"
             android:layout_centerInParent="true"
             android:layout_height="80dp"
@@ -26,6 +26,5 @@
             />
 
     </RelativeLayout>
-
 
 </LinearLayout>

@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -86,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter recyclerAdapter;
     FirebaseRecyclerAdapter<Department, DepartmentViewHolder> adapter;
 
+    //Progress
+    ProgressDialog pdialog;
+
     //Slider
     SliderLayout sliderLayout;
     ArrayList<String> image_list;
@@ -111,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getApplicationContext().getSharedPreferences("MyPref", 0);
         editor = sharedPreferences.edit();
+
+        //Progress
+        pdialog = new ProgressDialog(MainActivity.this);
+        pdialog.setMessage("Please wait...");
 
 
         Toolbar toolbar = findViewById(R.id.toolbarMain);
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         s.setRefreshing(false);
                         if (Common.isConnectedToInternet(getApplicationContext())) {
-                            setProgressDialog();
+                            pdialog.show();
                             loadDepartment();
 
                         }else {
@@ -157,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (Common.isConnectedToInternet(this)) {
-            setProgressDialog();
+            pdialog.show();
             loadDepartment();
         }else {
             Intent intent = new Intent(getApplicationContext(), RetryActivity.class);
@@ -168,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
 
         //SliderLayout
         slideSetup();
-
-
     }
 
     private void slideSetup() {
@@ -242,8 +249,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position, @NonNull Department model) {
                 holder.departmentName.setText(model.getName());
-                    Picasso.get().load(model.getImage()).into(holder.departmentImage);
-                dialog.dismiss();
+                Picasso.get().load(model.getImage()).into(holder.departmentImage);
+                pdialog.dismiss();
                 final Department clickCategoryItem = model;
                 if (Common.isConnectedToInternet(getApplicationContext()))
                     holder.setItemClickListener(new ItemClickListener() {
@@ -268,52 +275,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setProgressDialog() {
-
-        int llPadding = 30;
-        LinearLayout ll = new LinearLayout(this);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        ll.setPadding(15, llPadding, 15, llPadding);
-        ll.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams llParam = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        llParam.gravity = Gravity.CENTER;
-        ll.setLayoutParams(llParam);
-
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setIndeterminate(true);
-        progressBar.setPadding(0, 0, llPadding, 0);
-        progressBar.setLayoutParams(llParam);
-
-        llParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        llParam.gravity = Gravity.CENTER;
-        TextView tvText = new TextView(this);
-        tvText.setText("Please wait...");
-        tvText.setTextColor(Color.parseColor("#000000"));
-        tvText.setPadding(0,0,80,0);
-        tvText.setTextSize(20);
-        tvText.setLayoutParams(llParam);
-
-        ll.addView(progressBar);
-        ll.addView(tvText);
-
-        //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
-        builder.setView(ll);
-
-        dialog = builder.create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null) {
-            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-            layoutParams.copyFrom(dialog.getWindow().getAttributes());
-            layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            dialog.getWindow().setAttributes(layoutParams);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -331,6 +292,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.exit:
                 finish();
             return(true);
+            case R.id.web:
+                Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jmc.edu"));
+                startActivity(browser);
+            return(true);
+
         }
         return(super.onOptionsItemSelected(item));
     }
@@ -355,5 +321,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
 

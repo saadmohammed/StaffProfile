@@ -35,5 +35,4 @@ public class StaffViewHolder extends RecyclerView.ViewHolder implements View.OnC
         itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 
-
 }
