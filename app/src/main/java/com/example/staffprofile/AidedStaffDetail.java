@@ -2,6 +2,7 @@ package com.example.staffprofile;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -38,14 +39,15 @@ public class AidedStaffDetail extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
     AppBarLayout appBarLayoutAided;
 
-    private TextView txtName, txtDegree, txtPost,txtPhone, txtEmail, txtAddress;
+    private TextView txtName, txtDegree, txtPost,txtPhone, txtEmail, txtAddress, txtDetails;
     private ImageView imgStaff;
     private ImageButton btnCall,btnEmail;
+    private CardView aidedDetailCard;
 
     FirebaseDatabase database;
     DatabaseReference aided;
 
-    String phoneNo = "", TO = "";
+    String phoneNo = "", TO = "", Details;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -91,7 +93,7 @@ public class AidedStaffDetail extends AppCompatActivity {
         txtEmail = findViewById(R.id.detail_staffemail);
         txtPhone = findViewById(R.id.detail_staffphone);
         txtAddress = findViewById(R.id.detail_staffaddress);
-
+        aidedDetailCard = findViewById(R.id.aidedCard);
         imgStaff = findViewById(R.id.detail_staffimage);
 
         btnCall = findViewById(R.id.img_aided_staff_call);
@@ -150,6 +152,21 @@ public class AidedStaffDetail extends AppCompatActivity {
 
             }
         });
+        aidedDetailCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Details.isEmpty()){
+                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(Details));
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," Details not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
 
     }
 
@@ -168,6 +185,7 @@ public class AidedStaffDetail extends AppCompatActivity {
                 txtPhone.setText(staff.getPhone().toString());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
+                Details = staff.getDetails();
             }
 
             @Override

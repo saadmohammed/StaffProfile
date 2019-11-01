@@ -74,8 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 final ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
                 dialog.setMessage("Please wait...");
                 dialog.show();
-
-
+                dialog.setCancelable(false);
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

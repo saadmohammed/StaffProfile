@@ -33,22 +33,20 @@ public class UnAidedStaffDetail extends AppCompatActivity {
 
     SharedPreferences staffSharedPreferences;
     String UnStaffId = "";
-
     private ImageButton btnCall, btnEmail;
     private TextView txtName, txtDegree, txtPost, txtPhone, txtEmail, txtAddress;
     private ImageView imgStaff;
+    private CardView unaidedDetailCard;
     CollapsingToolbarLayout collapsingToolbarLayoutUnaided;
     AppBarLayout appBarLayoutUnAided;
     FirebaseDatabase database;
     DatabaseReference unAided;
-
-    String phoneNo = "", TO = "";
+    String phoneNo = "", TO = "", Details;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +89,7 @@ public class UnAidedStaffDetail extends AppCompatActivity {
         imgStaff = findViewById(R.id.detail_unstaffimage);
         btnCall = findViewById(R.id.img_unaided_staff_call);
         btnEmail = findViewById(R.id.img_unaided_staff_mail);
+        unaidedDetailCard = findViewById(R.id.unaidedCard);
 
         //Firebase UNAIDED
         database = FirebaseDatabase.getInstance();
@@ -144,6 +143,19 @@ public class UnAidedStaffDetail extends AppCompatActivity {
             }
         });
 
+        unaidedDetailCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!Details.isEmpty()){
+                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(Details));
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," Details not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     private void unAidedDetailStaff(String unStaffId) {
@@ -162,7 +174,7 @@ public class UnAidedStaffDetail extends AppCompatActivity {
                 txtAddress.setText(staff.getAddress());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
-
+                Details = staff.getDetails();
             }
 
             @Override

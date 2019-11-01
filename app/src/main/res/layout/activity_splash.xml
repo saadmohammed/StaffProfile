@@ -38,8 +38,7 @@
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:textSize="22sp"
-
-            android:textColor="#4F3083"/>
+            android:textColor="@color/colorPrimary"/>
 
 
     </LinearLayout>

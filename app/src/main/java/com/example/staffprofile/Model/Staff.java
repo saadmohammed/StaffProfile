@@ -8,16 +8,21 @@ public class Staff {
     private String Email;
     private String Image;
     private String Address;
+    private String Details;
 
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String address) {
-        Address = address;
-    }
 
     public Staff() {
+    }
+
+    public Staff(String name, String post, String degree, Long phone, String email, String image, String address, String details) {
+        Name = name;
+        Post = post;
+        Degree = degree;
+        Phone = phone;
+        Email = email;
+        Image = image;
+        Address = address;
+        Details = details;
     }
 
     public String getName() {
@@ -66,5 +71,21 @@ public class Staff {
 
     public void setImage(String image) {
         Image = image;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getDetails() {
+        return Details;
+    }
+
+    public void setDetails(String details) {
+        Details = details;
     }
 }

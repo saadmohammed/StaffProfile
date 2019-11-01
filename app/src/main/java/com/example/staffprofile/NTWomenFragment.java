@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.staffprofile.Model.NTStaff;
 import com.example.staffprofile.ViewHolder.NTStaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -15,46 +16,45 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NTAidedFragemt extends Fragment {
-
+public class NTWomenFragment extends Fragment {
     View view;
-    private RecyclerView ntAidedRecyclerView;
+    private RecyclerView ntWomenRecyclerView;
     private LinearLayoutManager linearLayoutManager;
 
-    private DatabaseReference ntAidedDatabaseReference;
+    private DatabaseReference ntWomenDatabaseReference;
 
     FirebaseRecyclerAdapter<NTStaff, NTStaffViewHolder> adapter;
 
-    public NTAidedFragemt() {
+    public NTWomenFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.ntaided, container, false);
+        view = inflater.inflate(R.layout.ntwomen,container, false);
 
-        ntAidedRecyclerView = view.findViewById(R.id.ntaidedRecyclerView);
-        ntAidedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ntWomenRecyclerView = view.findViewById(R.id.ntwomenRecyclerView);
+        ntWomenRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         //Firebase
-        ntAidedDatabaseReference = FirebaseDatabase.getInstance().getReference("NTAided");
+        ntWomenDatabaseReference = FirebaseDatabase.getInstance().getReference("NTWomen");
 
         return view;
-
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        Query query = ntAidedDatabaseReference;
+        Query query = ntWomenDatabaseReference;
         FirebaseRecyclerOptions<NTStaff> options =
                 new FirebaseRecyclerOptions.Builder<NTStaff>()
                         .setQuery(query, NTStaff.class)
@@ -98,7 +98,7 @@ public class NTAidedFragemt extends Fragment {
             }
         };
 
-        ntAidedRecyclerView.setAdapter(adapter);
+        ntWomenRecyclerView.setAdapter(adapter);
         adapter.startListening();
 
 

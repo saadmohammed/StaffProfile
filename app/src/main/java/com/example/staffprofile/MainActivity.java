@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         //Progress
         pdialog = new ProgressDialog(MainActivity.this);
         pdialog.setMessage("Please wait...");
+        pdialog.setCancelable(false);
 
 
         Toolbar toolbar = findViewById(R.id.toolbarMain);

@@ -289,7 +289,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical|start"
-                                    android:text="Further Details"
+                                    android:text="Further details"
                                     android:textColor="#494646"
                                     android:textSize="16sp"
                                     android:textAllCaps="false"

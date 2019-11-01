@@ -7,12 +7,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class NonTeachingStaff extends AppCompatActivity {
 
@@ -43,14 +40,16 @@ public class NonTeachingStaff extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Non - Teaching Staff");
+        getSupportActionBar().setTitle("Non - Teaching Staff ");
         nttabLayout = findViewById(R.id.tabLayoutIdNT);
         ntviewPager = findViewById(R.id.viewPagerIdNT);
         ntadapter = new ViewPageAdapter(getSupportFragmentManager());
 
         //Add Fragment
-        ntadapter.AddFragment(new NTAidedFragemt(), "Aided");
-        ntadapter.AddFragment(new NTUnAidedFragment(), "Self - Finance");
+        ntadapter.AddFragment(new NTAidedFragment(), "Men - Aided");
+        ntadapter.AddFragment(new NTUnAidedFragment(), "Men - SF");
+        ntadapter.AddFragment(new NTWomenFragment(), "Women - SF");
+
 
         ntviewPager.setAdapter(ntadapter);
         nttabLayout.setupWithViewPager(ntviewPager);

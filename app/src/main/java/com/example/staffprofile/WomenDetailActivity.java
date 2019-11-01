@@ -44,7 +44,7 @@ public class WomenDetailActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference women;
 
-    String phoneNo = "", TO = "";
+    String phoneNo = "", TO = "", Details;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -152,8 +152,14 @@ public class WomenDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.jmc.edu/include/department/cs/staff/profile/GR.pdf"));
-                startActivity(intent);
+                if (!Details.isEmpty()){
+                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(Details));
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext()," Details not available", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -174,6 +180,7 @@ public class WomenDetailActivity extends AppCompatActivity {
                 txtAddress.setText(staff.getAddress());
                 phoneNo = staff.getPhone().toString();
                 TO = staff.getEmail();
+                Details = staff.getDetails();
 
             }
 
