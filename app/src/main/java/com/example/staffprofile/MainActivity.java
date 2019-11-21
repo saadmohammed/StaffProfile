@@ -14,23 +14,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.example.staffprofile.Common.Common;
@@ -42,7 +38,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.animations.DescriptionAnimation;
-import com.glide.slider.library.slidertypes.DefaultSliderView;
 import com.glide.slider.library.slidertypes.TextSliderView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +48,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Firebase
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, bannerDatabaseReference;
 
     //Alert Progress
     AlertDialog.Builder builder;
@@ -84,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
     // Creating RecyclerView.
     RecyclerView recyclerView;
     GridLayoutManager mlm;
-    // Creating RecyclerView.Adapter.
-    RecyclerView.Adapter recyclerAdapter;
     FirebaseRecyclerAdapter<Department, DepartmentViewHolder> adapter;
 
     //Progress
@@ -95,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     SliderLayout sliderLayout;
     ArrayList<String> image_list;
     ArrayList<String> name_list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
         pdialog.setMessage("Please wait...");
         pdialog.setCancelable(false);
 
-
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -133,13 +127,16 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseDatabase= FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Department");
+        bannerDatabaseReference = FirebaseDatabase.getInstance().getReference("Banner");
 
         // Setting RecyclerView size true.
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
-            //Refreshing
+
+
+        //Refreshing
         s = findViewById(R.id.swipeRefreshMain);
         s.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -151,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         s.setRefreshing(false);
                         if (Common.isConnectedToInternet(getApplicationContext())) {
                             pdialog.show();
+                            slideSetup();
                             loadDepartment();
 
                         }else {
@@ -165,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-
         if (Common.isConnectedToInternet(this)) {
             pdialog.show();
+            slideSetup();
             loadDepartment();
         }else {
             Intent intent = new Intent(getApplicationContext(), RetryActivity.class);
@@ -176,14 +174,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-        //SliderLayout
-        slideSetup();
     }
 
+    //Slider
     private void slideSetup() {
         sliderLayout = findViewById(R.id.slider);
         image_list = new ArrayList<>();
         name_list = new ArrayList<>();
+
         final RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop();
 
@@ -209,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                             .setRequestOption(requestOptions)
                             .setProgressBarVisible(true);
                     sliderLayout.addSlider(sliderView);
-                    Log.e("Image",""+image_list.get(i));
 
                 }
 
@@ -217,17 +214,14 @@ public class MainActivity extends AppCompatActivity {
                 sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
                 sliderLayout.setCustomAnimation(new DescriptionAnimation());
                 sliderLayout.setDuration(6000);
-
-
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+
     }
+
 
     @Override
     protected void onStop() {
@@ -259,15 +253,20 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View view, int position, boolean isLongClick) {
                             Intent itemList = new Intent(getApplicationContext(), StaffActivity.class);
                             //Because category Id is key, so we just get key of
-                            editor.putString("DeptId",adapter.getRef(position).getKey());
-                            editor.commit();
-                            Log.e("ID",adapter.getRef(position).getKey());
-                            startActivity(itemList);
-
+                           if(!adapter.getRef(position).getKey().equals("26")){
+                                editor.putString("DeptId",adapter.getRef(position).getKey());
+                                editor.commit();
+                                Log.e("ID",adapter.getRef(position).getKey());
+                                startActivity(itemList);
+                            }
+                           else {
+                               startActivity(new Intent(getApplicationContext(), NonTeachingStaff.class));
+                           }
                         }
                     });
                 else
-                    startActivity(new Intent(getApplicationContext(), RetryActivity.class));
+                    Toast.makeText(getApplicationContext(), "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+
             }
 
         };
@@ -275,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.startListening();
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -286,18 +287,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
-            case R.id.nonteaching:
-                startActivity(new Intent(getApplicationContext(),NonTeachingStaff.class));
-            return(true);
             case R.id.logout:
-                finish();
+                Intent logout = new Intent(MainActivity.this, LoginActivity.class);
+                logout.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(logout);
             return(true);
             case R.id.web:
                 Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.jmc.edu"));
                 startActivity(browser);
             return(true);
+            case R.id.about:
+                about();
+            return (true);
         }
         return(super.onOptionsItemSelected(item));
+    }
+
+    private void about() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        View about = inflater.inflate(R.layout.aboutus,null);
+        alertDialog.setView(about);
+        alertDialog.show();
+
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

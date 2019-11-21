@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.NTStaff;
 import com.example.staffprofile.ViewHolder.NTStaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -32,6 +35,10 @@ public class NTWomenFragment extends Fragment {
 
     FirebaseRecyclerAdapter<NTStaff, NTStaffViewHolder> adapter;
 
+    //Lock
+    private ImageView lock;
+
+
     public NTWomenFragment() {
     }
 
@@ -43,6 +50,8 @@ public class NTWomenFragment extends Fragment {
         ntWomenRecyclerView = view.findViewById(R.id.ntwomenRecyclerView);
         ntWomenRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //Lock
+        lock = view.findViewById(R.id.ntWomenLock);
 
         //Firebase
         ntWomenDatabaseReference = FirebaseDatabase.getInstance().getReference("NTWomen");
@@ -54,6 +63,24 @@ public class NTWomenFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        String principal = Common.CURRENT_USER.getPassword();
+        String women = Common.CURRENT_USER.getPassword();
+            if(Common.isConnectedToInternet(getActivity())) {
+                if (women.equals("2222") || principal.equals("0000")){
+                    ntWomen();
+                }
+                else{
+                    ntWomenRecyclerView.setVisibility(View.GONE);
+                    lock.setVisibility(View.VISIBLE);
+                }
+            }else
+                Toast.makeText(getContext(),"Please Check Internet Connection", Toast.LENGTH_LONG).show();
+
+
+
+    }
+
+    private void ntWomen() {
         Query query = ntWomenDatabaseReference;
         FirebaseRecyclerOptions<NTStaff> options =
                 new FirebaseRecyclerOptions.Builder<NTStaff>()
@@ -100,7 +127,6 @@ public class NTWomenFragment extends Fragment {
 
         ntWomenRecyclerView.setAdapter(adapter);
         adapter.startListening();
-
 
     }
 }

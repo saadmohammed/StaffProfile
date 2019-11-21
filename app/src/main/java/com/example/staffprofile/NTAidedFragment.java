@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.NTStaff;
 import com.example.staffprofile.ViewHolder.NTStaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,6 +34,9 @@ public class NTAidedFragment extends Fragment {
 
     FirebaseRecyclerAdapter<NTStaff, NTStaffViewHolder> adapter;
 
+    //Lock
+    private ImageView lock;
+
     public NTAidedFragment() {
     }
 
@@ -38,6 +44,10 @@ public class NTAidedFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.ntaided, container, false);
+
+        //Lock
+        lock = view.findViewById(R.id.ntAidedLock);
+
 
         ntAidedRecyclerView = view.findViewById(R.id.ntaidedRecyclerView);
         ntAidedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -54,6 +64,26 @@ public class NTAidedFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        String principal = Common.CURRENT_USER.getPassword();
+        String men = Common.CURRENT_USER.getPassword();
+
+        if (Common.isConnectedToInternet(getContext())) {
+            if (men.equals("1111") || principal.equals("0000")){
+                ntAided();
+            }
+            else {
+                ntAidedRecyclerView.setVisibility(View.GONE);
+                lock.setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            startActivity(new Intent(getContext(),RetryActivity.class));
+        }
+
+
+    }
+
+    private void ntAided() {
         Query query = ntAidedDatabaseReference;
         FirebaseRecyclerOptions<NTStaff> options =
                 new FirebaseRecyclerOptions.Builder<NTStaff>()
@@ -100,7 +130,6 @@ public class NTAidedFragment extends Fragment {
 
         ntAidedRecyclerView.setAdapter(adapter);
         adapter.startListening();
-
 
     }
 }

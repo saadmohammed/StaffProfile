@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.staffprofile.Common.Common;
 import com.example.staffprofile.Model.NTStaff;
 import com.example.staffprofile.ViewHolder.NTStaffViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -32,6 +34,9 @@ public class NTUnAidedFragment extends Fragment {
 
     FirebaseRecyclerAdapter<NTStaff, NTStaffViewHolder> adapter;
 
+    //Lock
+    private ImageView lock;
+
     public NTUnAidedFragment() {
     }
 
@@ -46,6 +51,8 @@ public class NTUnAidedFragment extends Fragment {
         //Firebase
         ntUnAidedDatabaseReference = FirebaseDatabase.getInstance().getReference("NTUnAided");
 
+        //Lock
+        lock = view.findViewById(R.id.ntUnAidedLock);
 
 
         return view;
@@ -54,6 +61,28 @@ public class NTUnAidedFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        String principal = Common.CURRENT_USER.getPassword();
+        String men = Common.CURRENT_USER.getPassword();
+
+        if (Common.isConnectedToInternet(getContext())) {
+            if (men.equals("1111") || principal.equals("0000")){
+                ntUnAided();
+            }
+            else {
+                ntUnAidedRecyclerView.setVisibility(View.GONE);
+                lock.setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            startActivity(new Intent(getContext(),RetryActivity.class));
+        }
+
+
+
+
+    }
+
+    private void ntUnAided() {
 
         Query query = ntUnAidedDatabaseReference;
         FirebaseRecyclerOptions<NTStaff> options =
@@ -101,8 +130,6 @@ public class NTUnAidedFragment extends Fragment {
 
         ntUnAidedRecyclerView.setAdapter(adapter);
         adapter.startListening();
-
-
     }
 
 }

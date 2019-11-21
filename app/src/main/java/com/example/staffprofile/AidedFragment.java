@@ -73,7 +73,7 @@ public class AidedFragment extends Fragment {
         aidedTeachingRecyclerView = view.findViewById(R.id.aidedRecyclerView);
         aidedTeachingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //Pregress
+        //Progress
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Please wait...");
 
