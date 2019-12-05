@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Staff Profile</string>
-    <string name="title_activity_main">Staff Profile</string>
+    <string name="app_name">JMC Staff</string>
+    <string name="title_activity_main">JMC Staff</string>
     <string name="title_activity_staff">StaffActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
