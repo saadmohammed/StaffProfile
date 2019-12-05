@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Design and Developed by"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textColor="#383636" />
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+         android:src="@drawable/aboutus"
+        android:scaleType="fitXY"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MCA 2017 - 2020"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary" />
+
+</LinearLayout>
