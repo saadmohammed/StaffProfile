@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        getSupportActionBar().setTitle("Staff Profile");
+        getSupportActionBar().setTitle("JMC Staff  ");
 
         //Alert Progress
         builder = new AlertDialog.Builder(this);
